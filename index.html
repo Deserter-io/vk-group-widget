@@ -9,9 +9,10 @@
 <body>
   <div class="container-fluid">
     <button id="btn-get-groups" class="btn btn-primary">Получить список моих групп</button>
-    <br>
-    <select id="in-group" class="form-control"></select>
-    <br>
+    <div class="form-group" id="el-select">
+      <label for="exampleFormControlSelect1">Выберите группу:</label>
+      <select id="in-group" class="form-control"></select>
+    </div>
     <button id="btn-get-token" class="btn btn-secondary">Получить токен</button>
 
     <div class="alert alert-warning" id="el-output" role="alert"></div>
@@ -29,10 +30,11 @@
     const VK_API_VERSION = "5.103";
     let group_id;
 
-    const select = document.getElementById('in-group');
-    select.style.display = "none";
-    select.addEventListener('input', e => {
-      group_id = +select.value;
+    const elSelect = document.getElementById('el-select');
+    const inGroup = document.getElementById('in-group');
+    elSelect.style.display = "none";
+    inGroup.addEventListener('input', e => {
+      group_id = +inGroup.value;
       console.log("Selected", group_id);
     });
 
@@ -49,9 +51,9 @@
         const opt = document.createElement('option');
         opt.innerText = group.name;
         opt.value = group.id;
-        select.appendChild(opt);
+        inGroup.appendChild(opt);
       });
-      select.style.display = "block";
+      elSelect.style.display = "block";
     };
 
     document.getElementById('btn-get-groups').addEventListener('click', () => {
@@ -98,7 +100,7 @@
         console.log(response);
         if (response.access_token) {
           output.style.display = "block";
-          output.innerText = `Токен для управления виджетом: ${response.access_token}`;
+          output.innerHTML = `Токен для управления виджетом:<br><small>${response.access_token}</small>`;
         }
       })
       ;
