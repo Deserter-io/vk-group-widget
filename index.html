@@ -6,18 +6,38 @@
   <title>VK Group Widget demo</title>
 </head>
 <body>
+  <button id="btn-get-groups">Получить список моих групп</button>
   <button id="btn-get-token">Получить токен</button>
 
   <script src="https://cdn.jsdelivr.net/npm/@vkontakte/vk-bridge@2.2.1/dist/index.umd.js"></script>
   <script>
+    const APP_ID = 7463429;
+    const VK_API_VERSION = "5.103";
     const bridge = vkBridge.default;
     bridge.subscribe((e) => console.log("vkBridge event", e));
     bridge.send("VKWebAppInit", {});
 
+    document.getElementById('btn-get-groups').addEventListener('click', () => {
+      bridge.send("VKWebAppGetAuthToken", {"app_id": APP_ID, "scope": "groups"})
+      .then(token => bridge.send("VKWebAppCallAPIMethod", {
+        "method"    : "groups.get",
+        "request_id": "32test",
+        "params"    : {
+          "filter"      : "admin",
+          "v"           : VK_API_VERSION,
+          "access_token": token
+        },
+      }))
+      .then(result => {
+        console.log("Result from groups.get: %O", result);
+      })
+      .catch(err => console.error(err));
+    });
+
     document.getElementById('btn-get-token').addEventListener('click', () => {
       bridge.send("VKWebAppGetCommunityToken", {
-        "app_id"   : 7326880,
-        "group_id" : 1,
+        "app_id"   : APP_ID,
+        "group_id" : 46994534,
         "scope"    : "app_widget"
       });
     });
