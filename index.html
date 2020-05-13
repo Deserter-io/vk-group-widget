@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VK Group Widget demo</title>
+</head>
+<body>
+  <button id="btn-get-token">Получить токен</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@vkontakte/vk-bridge@2.2.1/dist/index.umd.js"></script>
+  <script>
+    const bridge = vkBridge.default;
+    bridge.subscribe((e) => console.log("vkBridge event", e));
+    bridge.send("VKWebAppInit", {});
+
+    document.getElementById('btn-get-token').addEventListener('click', () => {
+      bridge.send("VKWebAppGetCommunityToken", {
+        "app_id"   : 7326880,
+        "group_id" : 1,
+        "scope"    : "app_widget"
+      });
+    });
+  </script>
+  
+</body>
+</html>
