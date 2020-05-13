@@ -7,12 +7,13 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-  <button id="btn-get-groups">Получить список моих групп</button>
-  <br>
-  <select id="in-group"></select>
-  <br>
-  <button id="btn-get-token">Получить токен</button>
-
+  <div class="container-fluid">
+    <button id="btn-get-groups" class="btn btn-primary">Получить список моих групп</button>
+    <br>
+    <select id="in-group" class="form-control"></select>
+    <br>
+    <button id="btn-get-token" class="btn btn-secondary">Получить токен</button>
+  </div>
   
   <!-- Bootstrap scripts -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -24,10 +25,13 @@
   <script>
     const APP_ID = 7463429;
     const VK_API_VERSION = "5.103";
+    let group_id;
+
     const select = document.getElementById('in-group');
     select.style.display = "none";
     select.addEventListener('input', e => {
-      console.log("Selected", e);
+      const group_id = select.value;
+      console.log("Selected", group_id);
     });
 
     const bridge = vkBridge.default;
@@ -73,9 +77,14 @@
     });
 
     document.getElementById('btn-get-token').addEventListener('click', () => {
+      if (!group_id) {
+        console.log("Group not selected");
+        return;
+      }
+
       bridge.send("VKWebAppGetCommunityToken", {
         "app_id"   : APP_ID,
-        "group_id" : 46994534,
+        "group_id" : group_id,
         "scope"    : "app_widget"
       });
     });
