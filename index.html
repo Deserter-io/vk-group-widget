@@ -8,12 +8,20 @@
 </head>
 <body>
   <div class="container-fluid">
-    <button id="btn-get-groups" class="btn btn-primary">Получить список моих групп</button>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="https://github.com/Deserter-io/vk-group-widget" target="_blank">github</a>
+    </nav>
+
+    <div class="form-group">
+      <button id="btn-get-groups" class="btn btn-primary">Получить список моих групп</button>
+    </div>
     <div class="form-group" id="el-select">
       <label for="exampleFormControlSelect1">Выберите группу:</label>
       <select id="in-group" class="form-control"></select>
     </div>
-    <button id="btn-get-token" class="btn btn-secondary">Получить токен</button>
+    <div class="form-group">
+      <button id="btn-get-token" class="btn btn-secondary">Получить токен</button>
+    </div>
 
     <div class="alert alert-warning" id="el-output" role="alert"></div>
   </div>
