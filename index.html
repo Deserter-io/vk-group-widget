@@ -82,6 +82,8 @@
         return;
       }
 
+      console.log("Will request permissions for", group_id);
+
       bridge.send("VKWebAppGetCommunityToken", {
         "app_id"   : APP_ID,
         "group_id" : group_id,
