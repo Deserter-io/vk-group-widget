@@ -13,6 +13,8 @@
     <select id="in-group" class="form-control"></select>
     <br>
     <button id="btn-get-token" class="btn btn-secondary">Получить токен</button>
+
+    <div class="alert alert-warning" id="el-output" role="alert"></div>
   </div>
   
   <!-- Bootstrap scripts -->
@@ -33,6 +35,9 @@
       group_id = +select.value;
       console.log("Selected", group_id);
     });
+
+    const output = document.getElementById('el-output');
+    output.style.display = "none";
 
     const bridge = vkBridge.default;
 
@@ -92,7 +97,8 @@
       .then(response => {
         console.log(response);
         if (response.access_token) {
-          alert("Токен для управления виджетом: " + response.access_token);
+          output.style.display = "block";
+          output.innerText = `Токен для управления виджетом: ${response.access_token}`;
         }
       })
       ;
