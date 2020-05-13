@@ -18,7 +18,7 @@
   <script>
     const APP_ID = 7463429;
     const VK_API_VERSION = "5.103";
-    const groups = [];
+    // const groups = [];
     const select = document.getElementById('in-group');
     select.style.display = "none";
     select.addEventListener('input', e => {
@@ -57,7 +57,8 @@
       })
       .then(result => {
         console.log("Result from groups.get: %O", result);
-        groups = result.items;
+        // groups.length = 0;
+        // groups.push(...result.items);
         renderOptions(groups);
       })
       .catch(err => console.error(err));
