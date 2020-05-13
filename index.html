@@ -30,7 +30,7 @@
     const select = document.getElementById('in-group');
     select.style.display = "none";
     select.addEventListener('input', e => {
-      group_id = select.value;
+      group_id = +select.value;
       console.log("Selected", group_id);
     });
 
@@ -82,7 +82,7 @@
         return;
       }
 
-      console.log("Will request permissions for", group_id);
+      console.log("Will request permissions for", typeof group_id, group_id);
 
       bridge.send("VKWebAppGetCommunityToken", {
         "app_id"   : APP_ID,
