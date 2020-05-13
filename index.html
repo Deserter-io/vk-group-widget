@@ -8,26 +8,48 @@
 <body>
   <button id="btn-get-groups">Получить список моих групп</button>
   <br>
+  <select id="in-group"></select>
+  <br>
   <button id="btn-get-token">Получить токен</button>
+
+  
 
   <script src="https://cdn.jsdelivr.net/npm/@vkontakte/vk-bridge@2.2.1/dist/index.umd.js"></script>
   <script>
     const APP_ID = 7463429;
     const VK_API_VERSION = "5.103";
+    const groups = [];
+    const select = document.getElementById('in-group');
+    select.style.display = "none";
+    select.addEventListener('input', e => {
+      console.log("Selected", e);
+    });
+
     const bridge = vkBridge.default;
+
     bridge.subscribe((e) => console.log("vkBridge event", e));
     bridge.send("VKWebAppInit", {});
+
+    const renderOptions = (groups) => {
+      groups.forEach(group => {
+        const opt = document.createElement('option');
+        opt.innerText = group.name;
+        opt.value = group.id;
+        select.appendChild(opt);
+      });
+    };
 
     document.getElementById('btn-get-groups').addEventListener('click', () => {
       bridge.send("VKWebAppGetAuthToken", {"app_id": APP_ID, "scope": "groups"})
       .then(result => {
         console.log("token?", result);
         const token = result.access_token;
-        bridge.send("VKWebAppCallAPIMethod", {
+        return bridge.send("VKWebAppCallAPIMethod", {
           "method"    : "groups.get",
           "request_id": "32test",
           "params"    : {
             "filter"      : "admin",
+            "extended"    : 1,
             "v"           : VK_API_VERSION,
             "access_token": token
           },
@@ -35,6 +57,8 @@
       })
       .then(result => {
         console.log("Result from groups.get: %O", result);
+        groups = result.items;
+        renderOptions(groups);
       })
       .catch(err => console.error(err));
     });
