@@ -56,8 +56,8 @@
       })
       .then(result => {
         console.log("Result from groups.get: %O", result);
-        if (result.items) {
-          renderOptions(result.items);
+        if (result.response && result.response.items) {
+          renderOptions(result.response.items);
         } else {
           console.error("No groups?");
         }
